@@ -21,7 +21,7 @@ export const ManagerDashboard: React.FC = () => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const res = await fetch('http://localhost:7777/api/cars');
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cars`);
                 const data = await res.json();
                 setCars(data);
                 setLoading(false);
@@ -114,8 +114,8 @@ export const ManagerDashboard: React.FC = () => {
                             key={f}
                             onClick={() => setActiveFilter(f)}
                             className={`px-4 py-2 rounded-full text-[10px] font-bold whitespace-nowrap transition-all ${activeFilter === f
-                                    ? 'bg-[#1a2332] text-white shadow-lg'
-                                    : 'bg-white text-gray-400 border border-gray-100'
+                                ? 'bg-[#1a2332] text-white shadow-lg'
+                                : 'bg-white text-gray-400 border border-gray-100'
                                 }`}
                         >
                             {f === 'All' ? `All (${cars.length})` : `${f} (${cars.filter(c => c.parkingStatus === f).length})`}
@@ -146,8 +146,8 @@ export const ManagerDashboard: React.FC = () => {
                                         </div>
                                     </div>
                                     <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full uppercase ${car.parkingStatus === 'Parked' ? 'bg-green-100 text-green-600' :
-                                            car.parkingStatus === 'Retrieving' ? 'bg-orange-100 text-orange-600' :
-                                                'bg-gray-100 text-gray-600'
+                                        car.parkingStatus === 'Retrieving' ? 'bg-orange-100 text-orange-600' :
+                                            'bg-gray-100 text-gray-600'
                                         }`}>
                                         {car.parkingStatus}
                                     </span>

@@ -11,7 +11,7 @@ export const ParkingList: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:7777/api/location')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/location`)
             .then(res => res.json())
             .then(data => {
                 setLocations(data);
