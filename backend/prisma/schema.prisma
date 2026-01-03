@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Parking {
+  TicketId    Int         @id @default(autoincrement())
+  carId       Int         @unique
+  logDate     DateTime    @default(now())
+  entrytime   DateTime    @default(now())
+  exitTime    DateTime    @default(now())
+  paymentmode PaymentMode @default(UPI)
+  duration    DateTime    @default(now())
+  locationId  Int
+  location    Location    @relation(fields: [locationId], references: [locationId])
+}
+
+model cars {
+  carId         String        @id @default(dbgenerated("nextval('\"Cars_carId_seq\"'::regclass)"))
+  name          String
+  entryPoint    String
+  payments      Int
+  valet         String
+  customers     String
+  paymentStatus PaymentStatus @default(PENDING)
+  parkingStatus ParkingStatus @default(Parked)
+  locationId    Int
+  location      Location      @relation(fields: [locationId], references: [locationId])
+
+  @@map("Cars")
+}
+
+model Location {
+  locationId Int       @id @default(autoincrement())
+  address    String
+  cars       cars[]
+  parkings   Parking[]
+}
+
+enum PaymentMode {
+  UPI
+  CASH
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+}
+
+enum ParkingStatus {
+  Parked
+  Retirved
+  Retrieving
+}
